@@ -44,5 +44,6 @@ Instead of https://github.com/yourgithubusername/cowshare.git you copy the follo
  `python manage.py runserver`
 
 10. You can visit the admin panel
-username: admin
+http://127.0.0.1:8000/admin/  <br>
+username: admin <br>
 password: admin
