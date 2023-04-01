@@ -13,7 +13,7 @@
 
 . git clone https://github.com/yourgithubusername/cowshare.git
 
-Instead of https://github.com/frauddetectionsystem/ecommerce.git you copy the following from your GitHub account and use it  ![image](https://user-images.githubusercontent.com/122211702/225223448-dab70fd5-c56e-4547-81f3-4c1d39f92cf3.png) 
+Instead of https://github.com/yourgithubusername/cowshare.git you copy the following from your GitHub account and use it  ![image](https://user-images.githubusercontent.com/122211702/225223448-dab70fd5-c56e-4547-81f3-4c1d39f92cf3.png) 
 
 4. Change directory to the project by running the following command on the terminal
 
