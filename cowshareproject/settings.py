@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount', # new
     
     'cowshare',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 # userauth/settings.py
 LOGIN_REDIRECT_URL = 'home'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
+
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
