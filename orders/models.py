@@ -36,11 +36,98 @@ class OrderItem(models.Model):
                                 on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
-    message = models.CharField(max_length=500, blank=True)
-    exclusions = models.CharField(max_length=1000, blank=True)
     
     def __str__(self):
         return str(self.id)
     
     def get_cost(self):
         return self.price * self.quantity
+    
+class Refund(models.Model):
+    message = models.CharField(max_length=500)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    orderitem = models.ForeignKey(OrderItem, related_name='refunditems',
+                              on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.orderitem.product.id
+    
+    
+class Feedback(models.Model):
+    message = models.CharField(max_length=500)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    orderitem = models.ForeignKey(OrderItem, related_name='feedbackitems',
+                              on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.orderitem.product.id
+    
+    
+class ExchangeOffer(models.Model):
+    message = models.CharField(max_length=500)
+    orderitem = models.ForeignKey(OrderItem, related_name='exchangeitems',
+                              on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.user.email
+    
+class ExchangeOfferResponse(models.Model):
+    message = models.CharField(max_length=500)
+    exchangeoffer = models.ForeignKey(ExchangeOffer, related_name='exchangeoffer',
+                              on_delete=models.CASCADE)
+    orderitem = models.ForeignKey(OrderItem, related_name='exchangeresponseitems',
+                              on_delete=models.CASCADE)   
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.user.email
+    
+    
+# class count(models.Model):
+#     number = models.PositiveIntegerField(default=0)
+#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+#     orderitem = models.ForeignKey(OrderItem, related_name='items',
+#                               on_delete=models.CASCADE)  
+#     product = models.ForeignKey(Product, related_name='products',
+#                                 on_delete=models.CASCADE)
+        
+        
+class DeliveryCommpany(models.Model):
+    name = models.CharField(max_length=200)
+    phone = models.CharField(max_length=15)
+    
+    def __str__(self):
+        return self.name
+    
+class Delivery(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    deliverycompany = models.ForeignKey(DeliveryCommpany, related_name='delivery',
+                              on_delete=models.CASCADE)
+    orderitem = models.ForeignKey(OrderItem, related_name='deliveryitems',
+                              on_delete=models.CASCADE) 
+    delivered = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return  self.orderitem.product.id
+
+  
+class Exclusion(models.Model):
+    description = models.CharField(max_length=500)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    orderitem = models.ForeignKey(OrderItem, related_name='exclusionitems',
+                              on_delete=models.CASCADE) 
+    
+    def __str__(self):
+        return self.user.email
+    
+    
+    

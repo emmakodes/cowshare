@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, Category, Product
+from .models import CustomUser, Category, Product, SubCategory
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
@@ -17,6 +17,10 @@ admin.site.register(CustomUser, CustomUserAdmin)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    
+@admin.register(SubCategory)
+class SubCategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
     
 @admin.register(Product)
