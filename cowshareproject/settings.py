@@ -167,8 +167,8 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'emmamichael31@gmail.com'
-EMAIL_HOST_PASSWORD = 'fudhcijqfkoihtph'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True 
 EMAIL_USE_SSL = False
 
@@ -183,5 +183,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 CART_SESSION_ID = 'cart'
 
-PAYSTACK_SECRET_KEY = "sk_test_b8a0bca65930a6118111edc0c93a03a04882da10"
-PAYSTACK_PUBLIC_KEY = "pk_test_72ec9d4885bd658a3f4138a01e646ae2bdb7bfff"
+PAYSTACK_SECRET_KEY = ""
+PAYSTACK_PUBLIC_KEY = ""
