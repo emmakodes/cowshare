@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+
+
+{% block content %}
+{% if emessage %}
+<script>alert('{{emessage}}')</script>
+{% endif %}
+	<header class="container-fluid  py-1 mb-3 mt-4">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1 class="display-5">Your Carts</h1>
+			</div>
+		</div>
+	</header>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-8">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Price</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart %}
+            {% with product=item.product %}
+            <tr>
+              <td><a href="{{ product.get_absolute_url }}">
+                <img class="d-none d-sm-block d-md-block d-lg-block" src="{% if product.image %}{{ product.image.url }} {% else %}{% static "img/default-image1.png" %}{% endif %}" alt="Product image" style="width:10rem;height:10rem;"></a></td>
+              <td>{{ product.name }}</td>
+              <td>
+                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                  {{ item.update_quantity_form.quantity }}
+                  {{ item.update_quantity_form.override }}
+                  <input class="mt-1" type="submit" value="Update">
+                  {% csrf_token %}
+                </form>
+              </td>
+              <td>N {{ item.price }}</td>
+              <td>N {{ item.total_price }}</td>
+              <td>
+                <form action="{% url "cart:cart_remove" product.id %}" method="post">
+                  <input type="submit" value="Remove">
+                  {% csrf_token %}
+                </form>
+              </td>
+            </tr>
+            {% endwith %}
+            {% endfor %}
+          </tbody>
+        </table>
+        <a href="{% url "cowshare:allproducts" %}"><button type="button" class="btn btn-danger btn-block">Continue shopping</button></a><br><br>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Cart Total</h5>
+            <p class="card-text">Subtotal: <span class="float-end">N {{ cart.get_total_price }}</span></p>
+            {% comment %} <p class="card-text">Shipping: <span class="float-end">$0.00</span></p> {% endcomment %}
+            <p class="card-text">Total: <span class="float-end">N {{ cart.get_total_price }}</span></p>
+            <a href="{% url "orders:order_create" %}"><button type="button" class="btn btn-danger btn-block">Checkout</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><br><br>
+{% endblock %}

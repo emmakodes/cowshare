@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-center my-5">
+        <div class="text-center">
+        <h2 style="color:#0fad00">Success</h2>
+		{% if message %}
+		<h2 style="color:#0fad00">{{ message }}</h2>
+		{% endif %}
+        <h3>Dear {{ request.user.email }}</h3>
+        <p style="font-size:20px;color:#5C5C5C;">transaction successful</p><br>
+
+        <form method='post' action='{% url 'orders:exclusions' exref %}'>
+            {% csrf_token %}
+            <div class="form-group">
+            <label for="exclusiontext">Would you like to exclude any
+                meat/animal parts from your order/delivery? (e.g Head, Intestine etc)
+            </label><br>
+            <textarea class="form-control input-lg"  name="exclusion" id="exclusiontext" placeholder="Enter Exclusion names"></textarea><br>
+            </div>
+            <button type="submit" class="btn btn-success">Submit Exclusions</button>
+        </form><br><br>
+
+
+        <a href="{% url 'cowshare:users-profile' %}" class="btn btn-success">See your Orders</a>
+        </div>
+      </div>
+
+{% endblock %}

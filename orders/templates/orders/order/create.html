@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+
+    <header class="container-fluid  py-1 mb-3 mt-4">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1 class="display-5">Checkout</h1>
+			</div>
+		</div>
+	</header>
+
+
+
+    <div class="container my-5">
+        <div class="row">
+          <div class="col-md-8">
+            <h2>Your Order Summary</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in cart %}
+                <tr>
+                  <td>{{ item.product.name }}({{item.product.category}})</td>
+                  <td>N{{ item.price }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>N{{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                  <td colspan="3" class="text-end">Subtotal</td>
+                  <td>N{{ cart.get_total_price }}</td>
+                </tr>
+                {% comment %} <tr>
+                  <td colspan="3" class="text-end">Tax (5%)</td>
+                  <td>$1.75</td>
+                </tr> {% endcomment %}
+                <tr>
+                  <td colspan="3" class="text-end">Total</td>
+                  <td>{{ cart.get_total_price }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-4">
+            <h2>Shipping Information</h2>
+            {% load crispy_forms_tags %}
+            <form method='post'>
+                {{ form | crispy }}
+              <button type="submit" class="btn btn-danger">Place Order</button>
+              {% csrf_token %}
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+{% endblock %}

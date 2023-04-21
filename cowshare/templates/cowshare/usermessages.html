@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+
+
+    
+      <div class="container-fluid">
+        <div class="row">
+          <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{% url 'cowshare:users-profile' %}" style="font-size:1.5em;">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'cowshare:userorder' %}" style="font-size:1.5em;">Your Orders</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'cowshare:usermessages' %}" style="font-size:1.5em;color:red;">Inbox</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+      
+          <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="pt-3 pb-2 mb-3 border-bottom">
+              <h1 class="h2">Your messages</h1>
+            </div>
+      
+            <div class="tab-content" id="myTabContent">
+              <div>
+
+                <div class="container">
+                    <div class="row">
+                      <div class="col-md-12">
+                        {% for user_message in user_messages %}
+                        <div class="card mb-3">
+                          <div class="card-header">
+                            <h5 class="card-title">{{user_message.created}}</h5>
+                          </div>
+                          <div class="card-body">
+                            <p class="card-text">{{user_message.user_message}}</p>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <br><br>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+      
+{% endblock %}

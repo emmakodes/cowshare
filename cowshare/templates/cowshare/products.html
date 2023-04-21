@@ -1,1 +1,132 @@
-html code for products
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+
+{% block content %}
+<style>
+
+</style>
+
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col">
+      <p class="text-center">{{sendMessage}}</p>
+    </div>
+  </div>
+</div>
+
+{% if products %}
+    <div class="container my-5">
+      <h1 class="text-center mb-5">{% if category %}{{ category.name }}{% else %}Product Listing{% endif %}</h1>
+      <div class="row">
+        {% for product in products %}
+          <div class="col-md-4 mb-5">
+              <div class="card h-100">
+                  <div class="card-header">
+                      <h3>N{{product.subcategory}} Category</h3>
+                  </div>
+                  <div class="card-body text-center">
+                    <div class="container mt-2 mb-2">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="chart-container d-flex justify-content-center" style="">
+                            <canvas class="canvasimage" id="{{product.id}}" style="background-image:url('{{product.image.url}}');object-fit:cover;background-position:center;background-repeat:no-repeat;background-size:20% 20%;"></canvas>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "images/default-image2.jpg" %}{% endif %}" class="img-fluid mb-3" alt="Product Image" style="width:300px;height:200px;object-fit:cover;">
+                      <h5 class="card-title mb-3">Product Name:{{product.name}}</h5>
+                      <p class="card-text">Product ID: <strong>{{product.id}}</strong></p>
+                      <p class="card-text">Sharing Price: <strong>N{{product.sharing_price}}</strong></p>
+                      <p class="card-text">Total Price: <strong>N{{product.price}}</strong></p>
+                      <form action="{% url "cart:cart_add" product.id %}" method="post">
+                        <input type="hidden" name="quantity" value="1" id="id_quantity">
+                        <input type="hidden" name="override" value="False" id="id_override">
+                        {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Buy Now</button>
+                      </form>
+                      <a href="{% url 'cowshare:productdetail' product.id %}"><button class="btn btn-danger mt-1">View Product details</button></a>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+{% else %}
+<p>No products for search term available</p>
+{% endif %}
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% for product in products %}  
+    <script>
+      let shareCount{{product.id}} = {{product.sharing_number}};
+      let orderCount{{product.id}} = {{ product|total_orders }};
+    
+      const data{{product.id}} = {
+        datasets: [{
+          label: '{{product.sharing_price}}',
+          data: [
+            ...Array.from({ length: orderCount{{product.id}} }, () => 2),
+            ...Array.from({ length: shareCount{{product.id}} - orderCount{{product.id}} }, () => 1)
+          ],
+          backgroundColor: [
+            ...Array.from({ length: orderCount{{product.id}} }, () => 'red'),
+            ...Array.from({ length: shareCount{{product.id}} - orderCount{{product.id}} }, () => 'white')
+          ],
+          borderColor: 'green',
+          borderWidth: 1,
+          borderRadius: 2,
+          hoverBorderWidth: 0,
+        }]
+      };
+    
+      const options{{product.id}} = {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: 'Pie Chart of Orders for Shares'
+          },
+        },
+        elements: {
+          center: {
+            text: 'My Image',
+            image: '{{product.image.url}}', // replace with your image path
+            width: 100, // adjust image size as needed
+            height: 100,
+            draw: function(chart) {
+              if (chart.chartArea) {
+                const { ctx } = chart;
+                const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+                const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+                const img = new Image();
+                img.src = this.image;
+                img.onload = function() {
+                  const imgWidth = chart.options.elements.center.width || img.width;
+                  const imgHeight = chart.options.elements.center.height || img.height;
+                  ctx.drawImage(img, centerX - imgWidth / 2, centerY - imgHeight / 2, imgWidth, imgHeight);
+                };
+              }
+            }
+          }
+        },
+      };
+    
+      const ctx{{product.id}} = document.getElementById('{{product.id}}').getContext('2d');
+      const myChart{{product.id}} = new Chart(ctx{{product.id}}, {
+        type: 'doughnut',
+        data: data{{product.id}},
+        options: options{{product.id}}
+      });
+    </script>
+    {% endfor %}
+    {% endblock content %}

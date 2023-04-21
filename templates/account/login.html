@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+
+
+
+
+<div class="container">
+  <div class="row">
+  <div class="mx-auto col-10 col-md-8 col-lg-6">
+    {% load crispy_forms_tags %}
+    <h2 class="mt-5">Log In</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Log In</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="text-center mt-5">
+  <p>If you have not registered yet, you can click the link to <a href="{% url 'account_signup' %}">Sign up</a></p>
+</div><br><br>
+{% endblock %}

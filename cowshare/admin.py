@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, Category, Product, SubCategory
+from .models import CustomUser, Category, Product, SubCategory, UserProfile, Message
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
@@ -25,8 +25,14 @@ class SubCategoryAdmin(admin.ModelAdmin):
     
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'description',
+    list_display = ['id', 'name', 'price', 'description',
                     'available', 'created', 'updated']
-    list_filter = ['available', 'created', 'updated']
+    list_filter = ['available', 'created', 'updated','gender']
     list_editable = ['price', 'available']
     
+
+admin.site.register(UserProfile)
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user_message', 'created', 'updated']
+    list_filter = ['created', 'updated']
