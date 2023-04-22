@@ -135,7 +135,7 @@ def verify_payment(request, ref):
                 print(orders)
                 print('recipients', recipients)
 
-                message = "Your order for Product ID: {} is due for delivery and  will be sent in two days.".format(product.id)
+                message = "Your order on meatyshares.com for Product ID: {} is due for delivery and  will be sent in two days. Thank you for patronizing meatyshares.com".format(product.id)
                 send_mail('Order ready for shipping', message, settings.EMAIL_HOST_USER, recipients, fail_silently=False)        
             
 

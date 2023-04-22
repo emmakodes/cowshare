@@ -60,7 +60,8 @@
 
           {% if user.is_authenticated %}
           <p class="text-white mb-2 mb-lg-0 mx-1" style="display:inline;">Hi {{ user.email }}!</p>
-          <a href="{% url 'account_logout' %}" class="text-white mb-2 mb-lg-0 mx-1">Log Out</a>
+          <a href="{% url 'account_logout' %}" class="text-white mb-2 mb-lg-0 mx-1">Log Out</a> |
+          <a href="{% url 'cowshare:users-profile' %}" class="text-white mb-2 mb-lg-0 mx-1">Profile</a>
         {% else %}
           <p class="text-white mb-2 mb-lg-0 mx-1" style="display:inline;">You are not logged in</p>
           <a href="{% url 'account_login' %}" class="text-white mb-2 mb-lg-0 mx-1 link-light">Log In</a> |

@@ -11,21 +11,26 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+from environs import Env
+
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s+gh7$pi1^p%_^*2af4_nc-9yyg+*8)pqz#8#2_la=i!lmlg@2'
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG",default=False)
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'aac9-102-91-4-223.ngrok-free.app']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -167,8 +172,8 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'emmamichael31@gmail.com'
-EMAIL_HOST_PASSWORD = 'fudhcijqfkoihtph'
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True 
 EMAIL_USE_SSL = False
 
@@ -183,5 +188,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 CART_SESSION_ID = 'cart'
 
-PAYSTACK_SECRET_KEY = "sk_test_b8a0bca65930a6118111edc0c93a03a04882da10"
-PAYSTACK_PUBLIC_KEY = "pk_test_72ec9d4885bd658a3f4138a01e646ae2bdb7bfff"
+PAYSTACK_SECRET_KEY = env.str("PAYSTACK_SECRET_KEY")
+PAYSTACK_PUBLIC_KEY = env.str("PAYSTACK_PUBLIC_KEY")

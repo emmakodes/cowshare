@@ -5,7 +5,8 @@
 __pycache__
 
 
-
+#database configuration
+db.sqlite3
 
 # Backup files # 
 *.bak 

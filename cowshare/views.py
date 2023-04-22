@@ -43,9 +43,10 @@ def index(request):
 @login_required
 def profile(request):
     categories = Category.objects.all()
-    orders = Order.objects.filter(user=request.user)
+    user = CustomUser.objects.get(email=request.user.email)
+    orders = Order.objects.filter(user=user)
     print(orders)
-    order_itemz = OrderItem.objects.filter(order__user=request.user)
+    order_itemz = OrderItem.objects.filter(order__user=user)
     print(order_itemz)
 
     
@@ -55,8 +56,13 @@ def profile(request):
     userproducts = Product.objects.filter(id__in=[item.product.id for item in order_items]).annotate(names=F('name'),imagef=F('image'))
     print(userproducts)
     print(order_items)
+    try:
+        profile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        # Create a new UserProfile object
+        profile = UserProfile.objects.create(user=user, firstname='', lastname='', profile_pic='profile.jpg')
     
-    profile = UserProfile.objects.get(user=request.user) 
+        
     
     
     
@@ -194,6 +200,10 @@ def search(request):
 
 @login_required
 def update_profile(request):
+    updated_profile = ""
+    categories = Category.objects.all()
+    user_data = CustomUser.objects.get(email=request.user.email)
+    profile = UserProfile.objects.get(user=user_data)
     if request.method == 'POST':
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
@@ -206,9 +216,17 @@ def update_profile(request):
         # user_data.email = email
         profile.profile_pic = image_file
         profile.save()
-        messages.success(request, 'Your profile has been updated successfully.')
-        return redirect('cowshare:users-profile')
-
+        profile = UserProfile.objects.get(user=user_data)
+        updated_profile = "Your profile has been updated successfully."
+        #messages.success(request, 'Your profile has been updated successfully.')
+        #return redirect('cowshare:users-profile')
+    context = {
+        'profile': profile,
+        'categories': categories,
+        'updated_profile': updated_profile,
+    }
+    
+    return render(request, 'cowshare/usersprofile.html',context)
         
         
 

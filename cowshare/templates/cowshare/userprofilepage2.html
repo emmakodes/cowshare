@@ -42,9 +42,10 @@
                         <div class="col-md-8">
                             <h2>Order Details</h2>
                             <p><strong>Order ID:</strong> {{user_order.order.id}}</p>
+                            <p><strong>Product ID:</strong> {{user_order.product.id}}</p>
                             <p><strong>Product:</strong> {{user_order.product.name}}</p>
                             <p><strong>Order Date:</strong> {{user_order.order.created}} </p>
-                            <p><strong>Order Total:</strong> N{{user_order.price}}</p>
+                            <p><strong>Order Total:</strong> N{%widthratio user_order.price 1 user_order.quantity%}</p>
                             <p><strong>Order Quantity:</strong>{{user_order.quantity}}&nbsp;&nbsp;&nbsp;&nbsp;<span><strong>Paid:</strong>{{user_order.order.paid}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span><strong>Payment Verified:</strong>{{user_order.order.verified}}</span></p>
                             <p><strong>Delivery Address:</strong>{{user_order.order.address}}&nbsp;&nbsp;&nbsp;&nbsp;<span><strong>Delivery Status:</strong>{% if user_order.order.delivered %}  Delivered{% else %}  Delivery In progress{% endif %}</span></p>
                             {% comment %} <div class="btn-group" role="group"> {% endcomment %}
@@ -56,7 +57,7 @@
                             {% comment %} </div> {% endcomment %}
                           {% comment %} <br><br> {% endcomment %}
                             <div>
-                              <p>Exclusions: {{user_order.order.parts_to_exclude}}</p>
+                              <p><strong>Exclusions: </strong>{{user_order.order.parts_to_exclude}}</p>
                               {% comment %} <p>Exchange Offer: </p>
                               <p>Exchange Offer Request Status: </p>
                               <p>Refund: </p>
